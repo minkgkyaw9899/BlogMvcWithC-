@@ -1,0 +1,81 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var user = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+    var name = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - BlogMVC</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/sm-core-css.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/sm-clean.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.css">
+</head>
+<body class="bg-white">
+<header>
+    <nav class="sticky top-0 h-16 p-4 bg-slate-100 w-full mb-4 flex flex-row items-center justify-between backdrop-blur border-b">
+        <a href="/"><p class="text-2xl">Blog MVC</p></a>
+        <div class="flex flex-row justify-between items-center gap-12 relative">
+            <input class="border-0 border-slate-400 rounded p-2 tracking-wider font-light ring-0 outline-0 focus:outline-0 focus:ring-0 focus:border-0 placeholder:text-xs text-slate-500" placeholder="Search here..."/>
+            @if (user is null)
+            {
+                <a href="/Users/Login">
+                    <p class="underline underline-offset-4 text-indigo-600 tracking-widest">Login</p>
+                </a>
+            }
+            else
+            {
+                <div id="main-menu" class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <span class="font-medium text-gray-600 dark:text-gray-300 cursor-pointer">@name![0]</span>
+                </div>
+                <ul id="menu-list" class="absolute top-7 right-2 bg-white shadow">
+                    <a href="/Users/Profile">
+                        <li class="w-full px-3 py-1 mb-2 hover:bg-indigo-400">
+                            Profile
+                        </li>
+                    </a>
+                    <a href="/Users/Logout">
+                        <li class="w-full px-3 py-1 mt-3 hover:bg-indigo-400">
+                            Logout
+                        </li>
+                    </a>
+                </ul>
+            }
+        </div>
+    </nav>
+</header>
+<main class="container mx-auto bg-white w-screen h-full">
+    @RenderBody()
+</main>
+<footer>
+
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.4/jquery-confirm.min.js"></script>
+@* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/jquery.smartmenus.min.js" asp-append-version="true"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/customParseFormat.js"></script>
+<script>
+    dayjs.extend(window.dayjs_plugin_relativeTime)
+    dayjs.extend(window.dayjs_plugin_customParseFormat)
+    
+    $(document).ready(function() {
+        $('#menu-list').hide();
+        $('#main-menu').click(function() {
+            $('#menu-list').toggle();
+        });
+    });
+
+</script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

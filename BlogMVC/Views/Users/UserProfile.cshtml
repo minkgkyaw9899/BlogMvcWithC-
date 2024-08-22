@@ -1,0 +1,12 @@
+@model UserModel
+
+@{
+    ViewData["Title"] = "User " + Model.Name;
+}
+
+<div class="flex flex-1 items-center justify-center">
+    <section class="mb-2 border p-4 rounded-lg w-[24rem] bg-neutral-100 self-center">
+        <p class="text-slate-600 font-semibold text-xl tracking-widest">@Model.Name</p>
+        <p class="text-slate-600 text-lg tracking-widest">@Model.Email</p>
+    </section>
+</div>

@@ -1,0 +1,55 @@
+@model BlogModel
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Blog -" + Model.Title;
+    var name = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+    var isAuth = name == Model.Author;
+}
+
+
+<div class="container mx-auto flex flex-col py-5 shadow-sm px-2">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-4 justify-start">
+            <p class="w-10 h-10 place-content-center rounded-full items-center text-center bg-slate-100 text-black align-middle">@Model.Author[0]</p>
+            <div>
+                <p class="tracking-wider text-slate-700">@Model.Author</p>
+                <p class="text-slate-500 text-sm" id="time"></p>
+            </div>
+        </div>
+        @if (isAuth)
+        {
+            <div class="flex gap-6">
+                <a href="/Blogs/Edit/@Model.BlogId" class="text-indigo-500">Edit</a>
+                <a class="text-slate-500 delete-blog cursor-pointer" data-title="Delete Blog">Delete</a>
+            </div>
+        }
+    </div>
+
+    <div class="flex flex-col gap-col-12 flex-wrap flex-1 mt-5">
+        <p class="text-center text-slate-800 text-xl font-semibold first-letter:capitalize">@Model.Title</p>
+        <p class="text-justify text-slate-700 first-letter:capitalize first-line:ml-5">@Model.Content</p>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('.delete-blog').confirm({
+            content: "Do you want to delete this blog?",
+            useBootstrap: false,
+            typeAnimated: true,
+            buttons: {
+                Yes: function(){
+                    this.close()
+                    window.location.href = $('.delete-blog').attr('href').val("/Blogs/Delete/@Model.BlogId");
+                },
+                No: () => this.close(),
+            }
+        });
+
+        $(document).ready(function () {
+            $("#time").text(dayjs('@Model.CreatedAt', 'DD/MM/YYYY HH:mm:ss').fromNow());
+        })
+    </script>
+}

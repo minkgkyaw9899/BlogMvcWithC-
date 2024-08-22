@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Create Blog";
+}
+
+<div class="w-full flex flex-1 flex-col mx-auto">
+    <p class="text-center text-2xl text-indigo-500 my-5">Create Blog</p>
+    <form action="/Blogs/Create" method="post">
+        <div class="px-8 w-full mb-8">
+            <p disabled class="w-full outline-0 focus:outline-0 ring-0 rounded-xl p-3" type="text" name="Author">Author : <span class="font-bold tracking-wider">Min Kaung Kyaw</span></p>
+            <input type="text" name="Author" id="Author" value="Min Kaung Kyaw" class="hidden" />
+        </div>
+        <div class="px-8 my-8 w-full">
+            <input required class="w-full bg-slate-50 outline-0 focus:outline-0 ring-0 rounded-xl p-3 border border-indigo-400" type="text" name="Title" id="Title" placeholder="Blog Title"/>
+        </div>
+        <div class="px-8 w-full my-8">
+            <input required multiple class="w-full h-28 text-start align-top bg-slate-50 outline-0 focus:outline-0 ring-0 rounded-xl p-3 border border-indigo-400" type="text" name="Content" id="Content" placeholder="Blog Content"/>
+        </div>
+        <div class="px-8 w-full flex items-center justify-end my-8">
+            <button type="submit" class="ml-auto w-1/4 py-2 shadow  border border-indigo-500 bg-indigo-500 text-white rounded">Create</button>
+        </div>
+    </form>
+</div>

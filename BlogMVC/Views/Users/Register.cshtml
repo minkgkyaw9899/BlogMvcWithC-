@@ -1,0 +1,32 @@
+@{
+    ViewData["Title"] = "Register User";
+}
+
+<div class="flex flex-1 item-center w-screen justify-center mt-12">
+    <form action="/Users/Register" method="post">
+        <div class="flex flex-col w-[32rem] h-[32rem] align-middle bg-slate-200 gap-6 items-center justify-center">
+            <p class="mt-4 text-3xl text-indigo-600 tracking-widest">Welcome To BlogMVC</p>
+            
+            <div class="px-8 w-full">
+                <input class="w-full outline-0 focus:outline-0 ring-0 rounded-xl p-3" type="text" name="Name" id="Name" placeholder="Name">
+            </div>
+            
+            <div class="px-8 w-full">
+                <input class="w-full outline-0 focus:outline-0 ring-0 rounded-xl p-3" type="email" name="Email" id="Email" placeholder="Email">
+            </div>
+
+            <div class="px-8 w-full">
+                <input class="w-full outline-0 ring-0 focus:outline-0 rounded-xl p-3" type="password" name="Password" id="Password" placeholder="Password">
+            </div>
+
+            <div class="px-8 w-full">
+                <input class="w-full outline-0 ring-0 focus:outline-0 rounded-xl p-3" type="password" name="ConfirmPassword" id="ConfirmPassword" placeholder="Confirm Password">
+            </div>
+
+            <div class="mb-4 flex items-center justify-between w-full px-8">
+                <a class="text-violet-400" href="/Users/Login">Already have an account? Login</a>
+                <button class="px-4 py-2 rounded bg-violet-600 text-white font-bold" type="submit">Register</button>
+            </div>
+        </div>
+    </form>
+</div>

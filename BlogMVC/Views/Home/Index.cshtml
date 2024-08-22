@@ -1,0 +1,27 @@
+﻿@using System.Security.Claims
+@model List<BlogModel>
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    var user = HttpContextAccessor.HttpContext?.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+}
+
+<h2></h2>
+<div class="flex-flex-col container mx-auto my-5">
+    @if (user != null)
+    {
+        <a href="/Blogs/Create" class="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 rounded-lg shadow-lg border-0  tracking-wider text-white">Create Blog</a>
+    }
+    <div class="flex no-underline flex-1 flex-wrap items-center justify-start gap-5 container mx-4 my-8 pt-5">
+        @foreach (var blog in Model)
+        {
+            <a href="/Blogs/Detail/@blog.BlogId" class="no-underline w-[18rem] cursor-pointer bg-teal-100 shadow-lg rounded-sm border border-teal-200 px-2 py-1">
+                <div class="px-1 py-2 border-b border-b-teal-200">
+                    <p class="text-xl font-bold tracking-wider capitalize">@blog.Title</p>
+                    <p class="pl-2 text-slate-500">Author by @blog.Author</p>
+                </div>
+                <p class="pb-4 pt-1 px-1 tracking-wider text-wrap first-letter:capitalize">@blog.Content</p>
+            </a>
+        }
+    </div>
+</div>
