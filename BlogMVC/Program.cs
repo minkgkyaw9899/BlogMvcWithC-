@@ -36,7 +36,7 @@ try
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(x =>
         {
-            x.LoginPath = "/";
+            x.LoginPath = "/"; // /Home/Index => /Login/Index
         });
     builder.Services.AddAuthorization();
     builder.Services.AddHttpContextAccessor();
@@ -78,6 +78,8 @@ try
 
     app.UseAuthorization();
 
+
+    // Home/Index = /
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -4,22 +4,24 @@ using BlogMVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BlogMVC.Controllers;
 
-[Authorize(Roles = "User")]
+[Authorize(Roles = "User,Manager")]
 public class BlogsController: Controller
 {
     private readonly AppDbContext _db;
-
     private readonly ILogger<UsersController> _logger;
+    private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public BlogsController(AppDbContext db, ILogger<UsersController> logger)
+    public BlogsController(AppDbContext db, ILogger<UsersController> logger, IHttpContextAccessor httpContextAccessor)
     {
         _db = db;
         _logger = logger;
+        _httpContextAccessor = httpContextAccessor;
     }
-    
+
     [ActionName("Create")]
     public IActionResult Index()
     {
@@ -32,7 +34,11 @@ public class BlogsController: Controller
     public async Task<IActionResult> CreateBlog(BlogRequestDto requestDto)
     {
         _logger.LogInformation("Info :::::: Create new blog");
-        
+
+        string userId = _httpContextAccessor.HttpContext!.User.Claims
+            .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)!.Value;
+
+
         await _db.Blogs.AddAsync(new BlogModel()
         {
             Author = requestDto.Author,

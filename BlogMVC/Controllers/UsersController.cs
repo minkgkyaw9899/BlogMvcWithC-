@@ -101,7 +101,7 @@ public class UsersController : Controller
 
         if (user is null)
         {
-            _logger.LogError("Error :::::: Login user but user not exited!");
+            _logger.LogError("Error :::::: Login user but user not existed!");
             return View("Login", new
             {
                 AlreadyExisted = true,
@@ -128,9 +128,12 @@ public class UsersController : Controller
 
         var claims = new List<Claim>
         {
+            new(ClaimTypes.NameIdentifier, user.UserId.ToString()),
             new(ClaimTypes.Name, user.Name),
             new(ClaimTypes.Email, user.Email),
             new(ClaimTypes.Role, "User"),
+            new(ClaimTypes.Role, "Admin"),
+            new(ClaimTypes.Role, "Manger"),
         };
 
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -176,6 +179,4 @@ public class UsersController : Controller
         _logger.LogInformation("Success :::::: View user profile page successfully!");
         return View("UserProfile", user);
     }
-    
-
 }
