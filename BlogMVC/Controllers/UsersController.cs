@@ -97,7 +97,9 @@ public class UsersController : Controller
     {
         _logger.LogInformation("Info :::::: Login user");
 
-        var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == requestDto.Email);
+        var user = await _db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Email == requestDto.Email);
 
         if (user is null)
         {
